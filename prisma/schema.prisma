@@ -13,9 +13,11 @@ datasource db {
   provider = "postgresql"
 }
 
-model Count {
-  id         Int      @id @default(autoincrement())
-  key        String   @unique @default("global_counter")
-  value      Int      @default(0)
-  modifiedAt DateTime @updatedAt
+model Crosshair {
+  id          String   @id @default(uuid())
+  name        String
+  code        String
+  description String
+  imageUrl    String
+  createdAt   DateTime @default(now())
 }
