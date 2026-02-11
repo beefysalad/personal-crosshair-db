@@ -73,7 +73,7 @@ const CrosshairForm = () => {
             className='block text-sm font-medium text-foreground'
             htmlFor='name'
           >
-            Crosshair Name
+            Crosshair Name <span className='text-destructive'>*</span>
           </label>
           <Input
             id='name'
@@ -94,7 +94,7 @@ const CrosshairForm = () => {
 
         <div className='space-y-2'>
           <label className='block text-sm font-medium text-foreground'>
-            Crosshair Code
+            Crosshair Code <span className='text-destructive'>*</span>
           </label>
           <Input
             id='code'
@@ -122,23 +122,17 @@ const CrosshairForm = () => {
           id='description'
           {...form.register("description")}
           placeholder='Add notes about this crosshair... (optional)'
-          //   className='resize-none bg-background border-border/50 focus:border-accent min-h-24'
           className={`bg-background border resize-none min-h-24 ${
             form.formState.errors.description
               ? "border-destructive"
               : "border-border/50"
           } focus:border-accent`}
         />
-        {form.formState.errors.description && (
-          <span className='text-destructive text-xs ml-2'>
-            {form.formState.errors.description.message}
-          </span>
-        )}
       </div>
 
       <div className='space-y-2'>
         <label className='block text-sm font-medium text-foreground'>
-          Crosshair Image
+          Crosshair Image <span className='text-destructive'>*</span>
         </label>
         {form.formState.errors.imageUrl && (
           <span className='text-destructive text-xs ml-2'>
