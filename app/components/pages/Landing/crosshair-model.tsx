@@ -76,7 +76,10 @@ const CrosshairModal = ({
                 src={crosshair.imageUrl || "/placeholder.svg"}
                 alt={crosshair.name}
                 fill
+                sizes='(max-width: 1280px) 90vw, 1200px'
                 className='object-contain'
+                quality={95}
+                priority
               />
             </motion.div>
 

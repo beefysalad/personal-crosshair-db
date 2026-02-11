@@ -51,9 +51,10 @@ const GalleryCommponent = ({
                 <Image
                   src={crosshair.imageUrl || "/placeholder.svg"}
                   alt={crosshair.name}
-                  height={"100"}
-                  width={"100"}
-                  className='w-full h-full object-cover group-hover:scale-105 transition-transform duration-300'
+                  fill
+                  sizes='(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw'
+                  className='object-cover group-hover:scale-105 transition-transform duration-300'
+                  quality={90}
                 />
                 <motion.div
                   initial={{ opacity: 0 }}
@@ -75,13 +76,13 @@ const GalleryCommponent = ({
                     ? `${crosshair.code.substring(0, 10)}...`
                     : crosshair.code}
                 </p>
-                <div className='flex'>
+                <div className='flex gap-1'>
                   <button
                     onClick={() => setDeleteConfirm(crosshair.id)}
                     className='w-full h-6 p-0 text-muted-foreground hover:text-green-500 hover:bg-green-500/10 border border-border/50 rounded text-xs font-medium transition-all'
                   >
                     <Copy className='w-3 h-3 mx-auto' />
-                  </button>{" "}
+                  </button>
                   <button
                     onClick={() => setDeleteConfirm(crosshair.id)}
                     className='w-full h-6 p-0 text-muted-foreground hover:text-destructive hover:bg-destructive/10 border border-border/50 rounded text-xs font-medium transition-all'
