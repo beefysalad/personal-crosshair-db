@@ -8,9 +8,9 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { AnimatePresence, motion } from "framer-motion";
-import { Copy, Trash2 } from "lucide-react";
+import { Check, Copy, Trash2 } from "lucide-react";
 import Image from "next/image";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 
 interface CrosshairGalleryProps {
   crosshairs: Crosshair[];
@@ -25,9 +25,16 @@ const GalleryCommponent = ({
 }: CrosshairGalleryProps) => {
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
 
+  const [copiedId, setCopiedId] = useState<string | null>(null);
   const handleConfirmDelete = (id: string) => {
     onDeleteCrosshair(id);
     setDeleteConfirm(null);
+  };
+
+  const handleCopyCode = (code: string, id: string) => {
+    navigator.clipboard.writeText(code);
+    setCopiedId(id);
+    setTimeout(() => setCopiedId(null), 2000);
   };
 
   return (
@@ -72,16 +79,18 @@ const GalleryCommponent = ({
                   {crosshair.name}
                 </h3>
                 <p className='text-xs text-muted-foreground truncate font-mono mb-1.5'>
-                  {crosshair.code.length > 10
-                    ? `${crosshair.code.substring(0, 10)}...`
-                    : crosshair.code}
+                  {crosshair.description}
                 </p>
                 <div className='flex gap-1'>
                   <button
-                    onClick={() => setDeleteConfirm(crosshair.id)}
+                    onClick={() => handleCopyCode(crosshair.code, crosshair.id)}
                     className='w-full h-6 p-0 text-muted-foreground hover:text-green-500 hover:bg-green-500/10 border border-border/50 rounded text-xs font-medium transition-all'
                   >
-                    <Copy className='w-3 h-3 mx-auto' />
+                    {copiedId === crosshair.id ? (
+                      <Check className='w-3 h-3 text-green-500 mx-auto' />
+                    ) : (
+                      <Copy className='w-3 h-3 mx-auto' />
+                    )}
                   </button>
                   <button
                     onClick={() => setDeleteConfirm(crosshair.id)}
