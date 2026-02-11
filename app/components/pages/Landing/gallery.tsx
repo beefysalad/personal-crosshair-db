@@ -16,13 +16,16 @@ interface CrosshairGalleryProps {
   crosshairs: Crosshair[];
   onSelectCrosshair: (crosshair: Crosshair) => void;
   onDeleteCrosshair: (id: string) => void;
+  isDeleting?: boolean;
 }
 
 const GalleryCommponent = ({
   crosshairs,
   onSelectCrosshair,
   onDeleteCrosshair,
+  isDeleting = false,
 }: CrosshairGalleryProps) => {
+  // ... rest of the component stays the same
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
 
   const [copiedId, setCopiedId] = useState<string | null>(null);

@@ -4,14 +4,13 @@ import { NotFoundError } from "@/lib/errors";
 import prisma from "@/lib/prisma";
 
 export const addCrosshairService = async (
-  data: ICrosshairPayload
+  data: ICrosshairPayload,
 ): Promise<Crosshair> => {
   try {
-    console.log(data);
     const crosshair = await prisma.crosshair.create({
       data: {
         code: data.code,
-        description: data.description,
+        description: data.description || "",
         name: data.name,
         imageUrl: data.imageUrl,
       },
@@ -25,12 +24,16 @@ export const addCrosshairService = async (
 
 export const fetchAllCrosshair = async (
   page = 1,
-  limit = 12
+  limit = 12,
 ): Promise<{ crosshairs: Crosshair[]; total: number }> => {
   try {
     const skip = (page - 1) * limit;
     const [crosshairs, total] = await prisma.$transaction([
-      prisma.crosshair.findMany({ skip, take: limit }),
+      prisma.crosshair.findMany({
+        skip,
+        take: limit,
+        orderBy: { createdAt: "asc" },
+      }),
       prisma.crosshair.count(),
     ]);
 

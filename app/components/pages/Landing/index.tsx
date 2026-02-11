@@ -13,14 +13,13 @@ import NoCrosshair from "./no-crosshair";
 const LIMIT = 12;
 const LandingComponent = () => {
   const [page, setPage] = useState<number>(1);
-  const { data, isLoading } = useGetCrosshairs(page, LIMIT);
+  const { data, isLoading, isFetching } = useGetCrosshairs(page, LIMIT);
   const deleteMutation = useDeleteCrosshair();
 
   const [selectedCrosshair, setSelectedCrosshair] = useState<Crosshair | null>(
-    null
+    null,
   );
   const [showModal, setShowModal] = useState(false);
-  const [showForm, setShowForm] = useState(false);
 
   if (isLoading || !data) {
     return (
@@ -67,6 +66,17 @@ const LandingComponent = () => {
             </p>
           </motion.div>
 
+          {(isFetching || deleteMutation.isPending) && (
+            <div className='fixed inset-0 bg-background/50 backdrop-blur-sm flex items-center justify-center z-50'>
+              <div className='bg-card border border-border rounded-lg p-6 shadow-xl'>
+                <div className='w-12 h-12 border-4 border-accent border-t-transparent rounded-full animate-spin mx-auto mb-3' />
+                <p className='text-muted-foreground text-sm'>
+                  {deleteMutation.isPending ? "Deleting..." : "Updating..."}
+                </p>
+              </div>
+            </div>
+          )}
+
           {crosshairs.length === 0 ? (
             <NoCrosshair />
           ) : (
@@ -75,11 +85,12 @@ const LandingComponent = () => {
                 crosshairs={crosshairs}
                 onSelectCrosshair={handleSelectCrosshair}
                 onDeleteCrosshair={handleDeleteCrosshair}
+                isDeleting={deleteMutation.isPending}
               />
               <div className='flex justify-center items-center gap-4 mt-8'>
                 <Button
                   onClick={() => setPage((p) => Math.max(1, p - 1))}
-                  disabled={page === 1}
+                  disabled={page === 1 || isFetching}
                   variant='outline'
                 >
                   Previous
@@ -91,7 +102,7 @@ const LandingComponent = () => {
 
                 <Button
                   onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
-                  disabled={page === totalPages}
+                  disabled={page === totalPages || isFetching}
                   variant='outline'
                 >
                   Next

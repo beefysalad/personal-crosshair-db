@@ -17,7 +17,7 @@ model Crosshair {
   id          String   @id @default(uuid())
   name        String
   code        String
-  description String
+  description String?
   imageUrl    String
   createdAt   DateTime @default(now())
 }
