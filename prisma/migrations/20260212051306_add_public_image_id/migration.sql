@@ -5,7 +5,7 @@
 
 */
 -- AlterTable
-ALTER TABLE "Crosshair" ADD COLUMN     "imagePublicId" TEXT NOT NULL;
+ALTER TABLE "Crosshair" ADD COLUMN     "imagePublicId" TEXT;
 
 
 UPDATE "Crosshair" SET "imagePublicId" = '' WHERE "imagePublicId" IS NULL;
