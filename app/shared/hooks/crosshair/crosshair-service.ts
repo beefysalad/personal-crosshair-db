@@ -8,21 +8,21 @@ interface CrosshairResponse {
 }
 export const getCrosshairs = async (
   page: number,
-  limit: number
+  limit: number,
 ): Promise<CrosshairResponse> => {
   const response = await api.get(`/crosshair?page=${page}&limit=${limit}`);
   return response.data;
 };
 
 export const createCrosshair = async (
-  values: TCreateCrosshairSchemaForm
+  values: TCreateCrosshairSchemaForm,
 ): Promise<Crosshair> => {
   const response = await api.post("/crosshair", values);
   return response.data;
 };
 
 export const uploadCrosshairPhoto = async (
-  data: FormData
+  data: FormData,
 ): Promise<{ url: string; publicId: string }> => {
   const response = await api.post("/upload", data, {
     headers: { "Content-Type": "multipart/form-data" },
@@ -34,5 +34,20 @@ export const deleteCrosshair = async (id: string): Promise<void> => {
   const response = await api.delete("/crosshair", {
     data: { id },
   });
+  return response.data;
+};
+
+interface StorageStatsResponse {
+  totalCrosshairs: number;
+  databaseStorageBytes: number;
+  databaseStorageKB: number;
+  cloudinaryStorageBytes: number;
+  cloudinaryStorageMB: number;
+  totalStorageBytes: number;
+  totalStorageMB: number;
+}
+
+export const getStorageStats = async (): Promise<StorageStatsResponse> => {
+  const response = await api.get("/stats");
   return response.data;
 };

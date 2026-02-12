@@ -16,7 +16,9 @@ const Header = () => {
             Patrick
           </div>
           <div>
-            <h1 className='text-2xl font-bold text-accent'>Crosshair Vault</h1>
+            <h1 className='text-2xl font-bold text-accent'>
+              <Link href='/'>Crosshair Vault</Link>
+            </h1>
             <p className='text-xs text-muted-foreground'>
               Saladus Personal Crosshair Collection
             </p>

@@ -3,6 +3,7 @@ import {
   createCrosshair,
   deleteCrosshair,
   getCrosshairs,
+  getStorageStats,
   uploadCrosshairPhoto,
 } from "./crosshair-service";
 import { useRouter } from "next/navigation";
@@ -47,5 +48,13 @@ export const useDeleteCrosshair = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["crosshair"] });
     },
+  });
+};
+
+export const useGetStorageStats = () => {
+  return useQuery({
+    queryKey: ["storage-stats"],
+    queryFn: getStorageStats,
+    staleTime: 5 * 60 * 1000,
   });
 };

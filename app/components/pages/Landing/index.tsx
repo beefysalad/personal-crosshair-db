@@ -9,6 +9,7 @@ import { Fragment, useState } from "react";
 import CrosshairModal from "./crosshair-model";
 import GalleryCommponent from "./gallery";
 import NoCrosshair from "./no-crosshair";
+import CrosshairLoading from "../../shared/crosshair-loading";
 
 const LIMIT = 12;
 const LandingComponent = () => {
@@ -22,14 +23,7 @@ const LandingComponent = () => {
   const [showModal, setShowModal] = useState(false);
 
   if (isLoading || !data) {
-    return (
-      <div className='min-h-screen bg-background flex items-center justify-center'>
-        <div className='text-center'>
-          <div className='w-16 h-16 border-4 border-accent border-t-transparent rounded-full animate-spin mx-auto mb-4' />
-          <p className='text-muted-foreground'>Loading crosshairs...</p>
-        </div>
-      </div>
-    );
+    return <CrosshairLoading />;
   }
   const { crosshairs, total } = data;
 
@@ -58,11 +52,9 @@ const LandingComponent = () => {
               Your Crosshairs
             </h2>
             <p className='text-muted-foreground'>
-              {crosshairs.length === 0
+              {total === 0
                 ? "Create your first crosshair to get started"
-                : `${crosshairs.length} crosshair${
-                    crosshairs.length !== 1 ? "s" : ""
-                  } saved`}
+                : `${total} crosshair${total !== 1 ? "s" : ""} saved`}
             </p>
           </motion.div>
 
@@ -77,7 +69,7 @@ const LandingComponent = () => {
             </div>
           )}
 
-          {crosshairs.length === 0 ? (
+          {total === 0 ? (
             <NoCrosshair />
           ) : (
             <Fragment>
