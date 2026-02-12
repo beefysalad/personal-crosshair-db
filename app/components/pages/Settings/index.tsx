@@ -4,6 +4,7 @@ import {
   useCreateCrosshair,
   useDeleteCrosshair,
   useGetStorageStats,
+  useImportCrosshair,
 } from "@/app/shared/hooks/crosshair/useCrosshair";
 import { Button } from "@/components/ui/button";
 import {
@@ -21,6 +22,7 @@ const SettingsComponent = () => {
   const { data, isLoading } = useGetCrosshairs(1, 1000);
   const { data: storageData, isLoading: storageLoading } = useGetStorageStats();
   const { mutate: createCrosshair } = useCreateCrosshair();
+  const { mutateAsync: importCrosshair } = useImportCrosshair();
   const { mutate: deleteCrosshair } = useDeleteCrosshair();
   const [showClearConfirm, setShowClearConfirm] = useState<boolean>(false);
   const [exportCopied, setExportCopied] = useState<boolean>(false);
@@ -64,6 +66,8 @@ const SettingsComponent = () => {
             const imported = JSON.parse(event.target?.result as string);
             if (Array.isArray(imported)) {
               setImporting(true);
+              const promises = [];
+
               // Import each crosshair to the database
               for (const crosshair of imported) {
                 // Validate that the crosshair has required fields
@@ -71,19 +75,23 @@ const SettingsComponent = () => {
                   crosshair.name &&
                   crosshair.code &&
                   crosshair.imageUrl &&
-                  crosshair.imagePublicId
+                  typeof crosshair.imagePublicId === "string"
                 ) {
-                  createCrosshair({
-                    name: crosshair.name,
-                    code: crosshair.code,
-                    description: crosshair.description || "",
-                    imageUrl: crosshair.imageUrl,
-                    imagePublicId: crosshair.imagePublicId,
-                  });
+                  promises.push(
+                    importCrosshair({
+                      name: crosshair.name,
+                      code: crosshair.code,
+                      description: crosshair.description || "",
+                      imageUrl: crosshair.imageUrl,
+                      imagePublicId: crosshair.imagePublicId,
+                    }),
+                  );
                 }
               }
+
+              await Promise.all(promises);
               setImporting(false);
-              alert(`Successfully imported ${imported.length} crosshair(s)`);
+              alert(`Successfully imported ${promises.length} crosshair(s)`);
             }
           } catch (e) {
             console.error("Failed to import crosshairs", e);

@@ -29,6 +29,16 @@ export const useCreateCrosshair = () => {
   });
 };
 
+export const useImportCrosshair = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: createCrosshair,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["crosshair"] });
+    },
+  });
+};
+
 export const useUploadCrosshair = () => {
   return useMutation({
     mutationFn: uploadCrosshairPhoto,
