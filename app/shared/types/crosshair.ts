@@ -3,4 +3,5 @@ export interface ICrosshairPayload {
   description?: string;
   code: string;
   imageUrl: string;
+  imagePublicId: string;
 }

@@ -23,3 +23,12 @@ export const cloudinaryUpload = async (file: File) => {
     throw error;
   }
 };
+
+export const cloudinaryDelete = async (publicId:string) => {
+  try {
+    const result = await cloudinary.uploader.destroy(publicId);
+    return result;
+  } catch (error) {
+    throw error;
+  }
+}

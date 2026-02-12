@@ -2,6 +2,7 @@ import { Crosshair, Prisma } from "@/app/generated/prisma/client";
 import { ICrosshairPayload } from "@/app/shared/types/crosshair";
 import { NotFoundError } from "@/lib/errors";
 import prisma from "@/lib/prisma";
+import { cloudinaryDelete } from "../upload/service";
 
 export const addCrosshairService = async (
   data: ICrosshairPayload,
@@ -13,6 +14,7 @@ export const addCrosshairService = async (
         description: data.description || "",
         name: data.name,
         imageUrl: data.imageUrl,
+        imagePublicId: data.imagePublicId,
       },
     });
     return crosshair;
@@ -46,9 +48,10 @@ export const fetchAllCrosshair = async (
 
 export const deleteCrosshairById = async (id: string): Promise<void> => {
   try {
-    await prisma.crosshair.delete({
+    const deleted = await prisma.crosshair.delete({
       where: { id },
     });
+    await cloudinaryDelete(deleted.imagePublicId);
   } catch (error) {
     if (
       error instanceof Prisma.PrismaClientKnownRequestError &&

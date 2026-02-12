@@ -23,7 +23,7 @@ export const createCrosshair = async (
 
 export const uploadCrosshairPhoto = async (
   data: FormData
-): Promise<{ url: string }> => {
+): Promise<{ url: string; publicId: string }> => {
   const response = await api.post("/upload", data, {
     headers: { "Content-Type": "multipart/form-data" },
   });

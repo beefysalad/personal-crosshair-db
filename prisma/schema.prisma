@@ -14,10 +14,11 @@ datasource db {
 }
 
 model Crosshair {
-  id          String   @id @default(uuid())
-  name        String
-  code        String
-  description String?
-  imageUrl    String
-  createdAt   DateTime @default(now())
+  id            String   @id @default(uuid())
+  name          String
+  code          String
+  description   String?
+  imageUrl      String
+  imagePublicId String
+  createdAt     DateTime @default(now())
 }

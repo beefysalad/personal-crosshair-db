@@ -30,7 +30,7 @@ export const useCreateCrosshair = () => {
 
 export const useUploadCrosshair = () => {
   return useMutation({
-    mutationFn: (data: FormData) => uploadCrosshairPhoto(data),
+    mutationFn: uploadCrosshairPhoto,
     onError: (error) => {
       console.error("Upload failed", error);
     },
@@ -40,7 +40,7 @@ export const useUploadCrosshair = () => {
 export const useDeleteCrosshair = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (id: string) => deleteCrosshair(id),
+    mutationFn: deleteCrosshair,
     onError: (error) => {
       console.error("Delete failed", error);
     },

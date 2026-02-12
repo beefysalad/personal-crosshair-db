@@ -25,6 +25,7 @@ const CrosshairForm = () => {
       description: "",
       name: "",
       imageUrl: "",
+      imagePublicId: "",
     },
   });
   const onSubmit = async (values: TCreateCrosshairSchemaForm) => {
@@ -42,7 +43,7 @@ const CrosshairForm = () => {
       setImagePreview(null);
       return;
     } else {
-      // Clear previous error if valid
+      
       form.clearErrors("imageUrl");
     }
     const reader = new FileReader();
@@ -59,6 +60,8 @@ const CrosshairForm = () => {
     try {
       const response = await uploadCrosshair(formData);
       const uploadedUrl = response.url;
+      const publicId = response.publicId
+      form.setValue("imagePublicId", publicId);
       form.setValue("imageUrl", uploadedUrl);
     } catch (error) {
       console.error("Upload failed:", error);
