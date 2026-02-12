@@ -4,7 +4,7 @@
   - Added the required column `imagePublicId` to the `Crosshair` table without a default value. This is not possible if the table is not empty.
 
 */
--- AlterTable
+-- AlterT
 ALTER TABLE "Crosshair" ADD COLUMN     "imagePublicId" TEXT;
 
 
